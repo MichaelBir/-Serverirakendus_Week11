@@ -121,10 +121,17 @@ FROM recipe a
 JOIN ingredient b 
 ON a.recipeName = 'Pumpkin Tartlets' AND b.ingredientname = 'pumpkin puree';
 
-
-
+näidis postgre user on default postgres ja parool S.....1
+\l - andmebaaside list
+\c andmebaasi nimi (connect andmebaasi)
+\dt - data tables
+PGPASSWORD=ihLn3ZybpapM6BOL1jevMabVjU4H3uUU psql -h dpg-clhqtm4ig7qc73cvdsk0-a.oregon-postgres.render.com -U myrecipes_qr1r_user myrecipes_qr1r
+SELECT * FROM tabeli nimetus;  kuvab tabeli sisu
 
 DROP TABLE ingredient CASCADE;
+
+SELECT id, recipeName, instructions FROM recipe ORDER BY RANDOM() LIMIT 1; (SUVAISE RETSEPTI VALIK )
+SELECT b.ingredientName FROM ingredient b INNER JOIN IngredientInRecipe c ON b.id = c.ingredientId WHERE c.recipeId = 1;
 
 SELECT * from recipe;
 
@@ -172,3 +179,6 @@ WHERE id = 3;
 SELECT a.recipeName, a.instructions, b.ingredientName FROM recipe a INNER JOIN IngredientInRecipe c ON a.id = c.recipeId INNER JOIN ingredient b ON b.id = c.ingredientId WHERE a.recipeName = 'Pumpkin Tartlets';
 
 localhost:3003/fullRecipes/search?recipeName=Pumpkin%20Tartlets
+
+node -- server watch .js
+npm i dotenv

@@ -3,6 +3,8 @@ const db = require('../db');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+
+try{
     const recipes = await db.query('SELECT a.recipeName, a.instructions, b.ingredientName FROM recipe a INNER JOIN IngredientInRecipe c ON a.id = c.recipeId INNER JOIN ingredient b ON b.id = c.ingredientId;');  
     const recipeMap = {};
 
@@ -20,10 +22,16 @@ router.get('/', async (req, res) => {
 
     const resultArray = Object.values(recipeMap);
     res.json(resultArray);
+}
+catch(error) {
+    console.log(error);
+    res.status(500).json({errorMessage: 'Internal Server error.'});
+}
 });
 
 
 router.get('/recipeingredients', async (req, res) => {
+    try{
     const recipes = await db.query('SELECT a.recipeName, b.ingredientName FROM recipe a INNER JOIN IngredientInRecipe c ON a.id = c.recipeId INNER JOIN ingredient b ON b.id = c.ingredientId;');  
     const recipeMap = {};
 
@@ -36,9 +44,15 @@ router.get('/recipeingredients', async (req, res) => {
         recipeMap[recipename].push(ingredientname);
     }
     res.json(recipeMap);
+}
+catch(error) {
+    console.log(error);
+    res.status(500).json({errorMessage: 'Internal Server error.'});
+}
 });
 
 router.get('/search', async (req, res) => {
+    try{
     const searchString = req.query.recipeName;
     console.log(searchString);
 
@@ -61,7 +75,11 @@ router.get('/search', async (req, res) => {
     const resultArray = Object.values(recipeMap);
     res.json(resultArray);
 
-
+}
+catch(error) {
+    console.log(error);
+    res.status(500).json({errorMessage: 'Internal Server error.'});
+}
 });
 
 module.exports = router;
